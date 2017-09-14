@@ -1,17 +1,19 @@
-package com.examples.skripov.sippo;
+package com.examples.skripov.sippo.lesson1;
 
-import com.examples.skripov.sippo.lesson1.SippoLessonOneDemoTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class SippoTest extends TestCase {
+/**
+ * Unit test for simple App.
+ */
+public class SippoLessonOneDemoTest extends TestCase {
     /**
      * Create the test case
      *
      * @param testName name of the test case
      */
-    public SippoTest(String testName ) {
+    public SippoLessonOneDemoTest(String testName ) {
         super( testName );
     }
 
