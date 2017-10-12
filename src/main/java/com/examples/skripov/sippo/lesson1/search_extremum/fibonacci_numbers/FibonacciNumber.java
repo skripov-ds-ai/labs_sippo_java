@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class FibonacciNumber {
     public static ArrayList<Long> getFibonacciNumbersVector(int n) {
         ArrayList<Long> fibs = new ArrayList<>();
-        fibs.add(0L);
+        fibs.add(1L);
         fibs.add(1L);
 
         for (int i = 2; i < n; i++) {

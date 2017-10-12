@@ -12,7 +12,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 public class FractionFunction extends Function implements IFunction {
     private double A, B, C, D;
 
-    public FractionFunction(double left, double right, double a, double b, double c, double d) {
+    public FractionFunction(double left, double right, double a, double b, double c, double d) throws IncorrectDomainException {
         super(left, right);
         A = a;
         B = b;

@@ -2,6 +2,8 @@ package com.examples.skripov.sippo.lesson1;
 
 import com.examples.skripov.sippo.lesson1.exceptions.NotConsoleOrFileException;
 import com.examples.skripov.sippo.lesson1.exceptions.NotTrueOrFalseException;
+import com.examples.skripov.sippo.lesson1.helper_classes.Answer;
+import com.examples.skripov.sippo.lesson1.helper_classes.Interval;
 import com.examples.skripov.sippo.lesson1.point2d.Point2D;
 import com.examples.skripov.sippo.lesson1.search_extremum.DichotomySearchExtremum;
 import com.examples.skripov.sippo.lesson1.search_extremum.FibonacciSearchExtremum;
@@ -17,6 +19,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -27,15 +30,16 @@ public class SippoLessonOneDemo {
 
     private static void oldMain() {
         // System.out.println( "Hello World!" );
-        Function sin = new SinFunction(0, Math.PI, 1, 1);
+
         try {
+            Function sin = new SinFunction(0, Math.PI, 1, 1);
             System.out.println("sin(п/2) = " + sin.compute(Math.PI / 2));
             Point2D point = DichotomySearchExtremum.getExtremum(1e-9, 1000, false, sin);
             System.out.println(point);
             Point2D point1 = GoldenSectionSearchExtremum.getExtremum(1e-9, 1000, false, sin);
             System.out.println(point1);
-            Point2D point2 = FibonacciSearchExtremum.getExtremum(1e-9, 7, false, sin);
-            System.out.println(point2);
+            //Point2D point2 = FibonacciSearchExtremum.getExtremum(1e-9, 7, false, sin);
+            //System.out.println(point2);
 
         } catch (IncorrectDomainException e) {
             e.printStackTrace();
@@ -43,14 +47,12 @@ public class SippoLessonOneDemo {
             e.printStackTrace();
         } catch (OutOfDomainException e) {
             e.printStackTrace();
-        } catch (FibonacciOverFlowException e) {
-            e.printStackTrace();
         }
     }
 
     private static double A = 2, B = -1, C = 1;
 
-    private static Function myFunction(double a, double b) {
+    private static Function myFunction(double a, double b) throws IncorrectDomainException {
         Function function = new Function4SecondTest(a, b, A, B, C);
         return function;
     }
@@ -141,7 +143,7 @@ public class SippoLessonOneDemo {
         }
         int iterations = scanner.nextInt();
 
-        Point2D result = FibonacciSearchExtremum.getExtremum(eps, iterations, minimum, myFunction(a, b));
+        List<Answer> result = FibonacciSearchExtremum.getExtremum(eps, iterations, minimum, myFunction(a, b));
 
         System.out.println((minimum ? minim : maxim) + result);
 

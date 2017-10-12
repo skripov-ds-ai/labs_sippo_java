@@ -13,9 +13,12 @@ import static com.examples.skripov.sippo.lesson1.search_extremum.function.consta
 public abstract class Function implements IFunction {
     private double left, right;
 
-    public Function(double left, double right) {
+    public Function(double left, double right) throws IncorrectDomainException {
         this.left = left;
         this.right = right;
+        if (left > right) {
+            throw new IncorrectDomainException();
+        }
     }
 
     public void setLeft(double left) {

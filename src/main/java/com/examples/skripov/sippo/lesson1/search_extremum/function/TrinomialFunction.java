@@ -9,7 +9,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 public class TrinomialFunction extends Function implements IFunction {
     private double A, B, C;
 
-    public TrinomialFunction(double left, double right, double a, double b, double c) {
+    public TrinomialFunction(double left, double right, double a, double b, double c) throws IncorrectDomainException {
         super(left, right);
         A = a;
         B = b;

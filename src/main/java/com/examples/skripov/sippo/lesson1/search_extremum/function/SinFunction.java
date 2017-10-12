@@ -9,7 +9,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 public class SinFunction extends Function implements IFunction {
     private double A, B;
 
-    public SinFunction(double left, double right, double a, double b) {
+    public SinFunction(double left, double right, double a, double b) throws IncorrectDomainException {
         super(left, right);
         A = a;
         B = b;

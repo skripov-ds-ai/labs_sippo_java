@@ -10,7 +10,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 public class BinomialFunction extends Function implements IFunction {
     private double A, B;
 
-    public BinomialFunction(double left, double right, double a, double b) {
+    public BinomialFunction(double left, double right, double a, double b) throws IncorrectDomainException {
         super(left, right);
         A = a;
         B = b;

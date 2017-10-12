@@ -7,7 +7,7 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.Ou
 public class Function4ThirdTest extends Function implements IFunction {
     private double a, b, c, d;
 
-    public Function4ThirdTest(double left, double right, double a, double b, double c, double d) {
+    public Function4ThirdTest(double left, double right, double a, double b, double c, double d) throws IncorrectDomainException {
         super(left, right);
         this.a = a;
         this.b = b;
