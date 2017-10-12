@@ -1,6 +1,11 @@
 package com.examples.skripov.sippo.lesson1.dataunit;
 
-public class DataUnit {
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+public class DataUnit implements Externalizable {
     private int iterations;
     private double a, b, epsilon;
     private boolean minimum;
@@ -46,5 +51,23 @@ public class DataUnit {
 
     public void setMinimum(boolean minimum) {
         this.minimum = minimum;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput objectOutput) throws IOException {
+        objectOutput.writeInt(iterations);
+        objectOutput.writeDouble(a);
+        objectOutput.writeDouble(b);
+        objectOutput.writeDouble(epsilon);
+        objectOutput.writeBoolean(minimum);
+    }
+
+    @Override
+    public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException {
+        iterations = objectInput.readInt();
+        a = objectInput.readDouble();
+        b = objectInput.readDouble();
+        epsilon = objectInput.readDouble();
+        minimum = objectInput.readBoolean();
     }
 }
