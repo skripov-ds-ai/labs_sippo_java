@@ -42,7 +42,7 @@ public class DataUnitReaderTest {
 
     @Test
     public void testReadDataUnit() throws IOException, ClassNotFoundException {
-        DataUnitReader reader = new DataUnitReader(fullNameForIOExceptionWhileReading);
+        DataUnitReader reader = new DataUnitReader(fullName);
 
         DataUnit actualDataUnit = reader.getDataUnit();
 

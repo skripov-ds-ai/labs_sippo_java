@@ -22,6 +22,22 @@ public class FunctionsTest {
     @Test(expected = IncorrectDomainException.class)
     public void testIncorrectDomain() throws IncorrectDomainException, OutOfSegmentException, OutOfDomainException {
         Function function = new SinFunction(1, -1, 1, 1);
-        fail();
+        Assert.fail();
+    }
+
+    @Test(expected = OutOfSegmentException.class)
+    public void testOutOfSegment() throws IncorrectDomainException, OutOfSegmentException, OutOfDomainException {
+        Function function = new SinFunction(-1, 1, 1, 1);
+        function.compute(42);
+
+        Assert.fail();
+    }
+
+    @Test(expected = OutOfDomainException.class)
+    public void testOutOfDomain() throws IncorrectDomainException, OutOfSegmentException, OutOfDomainException {
+        Function function = new FractionFunction(-1, 1, 1, 1, 0,0);
+        function.compute(0.5);
+
+        Assert.fail();
     }
 }
