@@ -70,4 +70,44 @@ public class DataUnit implements Externalizable {
         epsilon = objectInput.readDouble();
         minimum = objectInput.readBoolean();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DataUnit dataUnit = (DataUnit) o;
+
+        if (iterations != dataUnit.iterations) return false;
+        if (Double.compare(dataUnit.a, a) != 0) return false;
+        if (Double.compare(dataUnit.b, b) != 0) return false;
+        if (Double.compare(dataUnit.epsilon, epsilon) != 0) return false;
+        return minimum == dataUnit.minimum;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = iterations;
+        temp = Double.doubleToLongBits(a);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(b);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(epsilon);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (minimum ? 1 : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DataUnit{" +
+                "iterations=" + iterations +
+                ", a=" + a +
+                ", b=" + b +
+                ", epsilon=" + epsilon +
+                ", minimum=" + minimum +
+                '}';
+    }
 }

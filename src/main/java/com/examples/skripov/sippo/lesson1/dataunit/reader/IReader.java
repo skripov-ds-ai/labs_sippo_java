@@ -1,4 +1,4 @@
-package com.examples.skripov.sippo.lesson1.reader;
+package com.examples.skripov.sippo.lesson1.dataunit.reader;
 
 import java.io.IOException;
 

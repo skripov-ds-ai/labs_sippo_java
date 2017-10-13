@@ -8,41 +8,19 @@ import com.examples.skripov.sippo.lesson1.search_extremum.function.*;
 import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.IncorrectDomainException;
 import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.OutOfDomainException;
 import com.examples.skripov.sippo.lesson1.search_extremum.function.exceptions.OutOfSegmentException;
-import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.List;
 
 import static com.examples.skripov.sippo.lesson1.search_extremum.FibonacciSearchExtremum.*;
 import static com.examples.skripov.sippo.lesson1.constants.Constants.*;
+import static org.junit.Assert.assertEquals;
 
-public class FibonacciSearchExtremumTest extends TestCase {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public FibonacciSearchExtremumTest( String testName ) {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite() {
-        return new TestSuite( FibonacciSearchExtremumTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp() {
-        assertTrue( true );
-    }
-
-    @org.junit.Test
+public class FibonacciSearchExtremumTest {
+    @Test
     public void testGetExtremumMinimumOfFunction4FirstTest() throws FibonacciOverFlowException, OutOfSegmentException, OutOfDomainException, IncorrectDomainException {
         Function function = new Function4SecondTest(0, 1, 2, -1, 1);
 
@@ -59,7 +37,7 @@ public class FibonacciSearchExtremumTest extends TestCase {
         assertEquals(expected.getY(), actualFStar, epsilonForCmp);
     }
 
-    @org.junit.Test
+    @Test
     public void testGetExtremumMinimumOfSin() throws FibonacciOverFlowException, OutOfSegmentException, OutOfDomainException, IncorrectDomainException {
         Function function = new SinFunction(Math.PI, 2 * Math.PI, 1, 1);
 
@@ -78,7 +56,7 @@ public class FibonacciSearchExtremumTest extends TestCase {
     }
 
     // todo
-    @org.junit.Test
+    @Test
     public void testGetExtremumMaximumOfSin() throws FibonacciOverFlowException, OutOfSegmentException, OutOfDomainException, IncorrectDomainException {
         Function function = new SinFunction(0, Math.PI, 1, 1);
 
@@ -96,7 +74,7 @@ public class FibonacciSearchExtremumTest extends TestCase {
         assertEquals(expected.getY(), actualFStar, eps);
     }
 
-    @org.junit.Test
+    @Test
     public void testGetExtremumMinimumOfFunction4ThirdTest() throws FibonacciOverFlowException, OutOfSegmentException, OutOfDomainException, IncorrectDomainException {
         Function function = new Function4ThirdTest(0, 2, 1, -14, 60, -70);
 
@@ -114,7 +92,7 @@ public class FibonacciSearchExtremumTest extends TestCase {
         assertEquals(expectedFStar, actualFStar, epsilonForCmp);
     }
 
-    @org.junit.Test
+    @Test
     public void testGetExtremumMinimumOfTrinomialFunction() throws IncorrectDomainException, FibonacciOverFlowException, OutOfSegmentException, OutOfDomainException {
         Function function = new TrinomialFunction(-3, 5, 1.0, 3.0, 0.0);
 
