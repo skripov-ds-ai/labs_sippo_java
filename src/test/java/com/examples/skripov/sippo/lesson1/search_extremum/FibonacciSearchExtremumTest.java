@@ -30,7 +30,7 @@ public class FibonacciSearchExtremumTest {
         boolean minimum = true;
 
         List<Answer> actual = getExtremum(eps, iterations, minimum, function);
-        System.out.println(actual);
+        //System.out.println(actual);
         double actualFStar = actual.get(actual.size() - 1).getfStar();
         Point2D expected = new Point2D(0.757403, -1.174138);
 
@@ -48,7 +48,7 @@ public class FibonacciSearchExtremumTest {
 
         List<Answer> actual = getExtremum(eps, iterations, minimum, function);
 
-        System.out.println(actual);
+        //System.out.println(actual);
         double actualFStar = actual.get(actual.size() - 1).getfStar();
         Point2D expected = new Point2D(3 * Math.PI / 2, -1);
 
@@ -66,7 +66,7 @@ public class FibonacciSearchExtremumTest {
 
         List<Answer> actual = getExtremum(eps, iterations, minimum, function);
 
-        System.out.println(actual);
+        //System.out.println(actual);
 
         double actualFStar = actual.get(actual.size() - 1).getfStar();
         Point2D expected = new Point2D(Math.PI / 2, 1);
@@ -88,7 +88,7 @@ public class FibonacciSearchExtremumTest {
         double actualFStar = actual.get(actual.size() - 1).getfStar();
         //Point2D expected = new Point2D((0.780804 + 0.7809753) / 2, -24.3696);
 
-        System.out.println(actual);
+        //System.out.println(actual);
         assertEquals(expectedFStar, actualFStar, epsilonForCmp);
     }
 
@@ -106,7 +106,7 @@ public class FibonacciSearchExtremumTest {
         double actualFStar = actual.get(actual.size() - 1).getfStar();
         //Point2D expected = new Point2D((0.780804 + 0.7809753) / 2, -24.3696);
 
-        System.out.println(actual);
+        //System.out.println(actual);
         assertEquals(expectedFStar, actualFStar, epsilonForCmp);
     }
 

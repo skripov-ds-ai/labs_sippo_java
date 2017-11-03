@@ -13,3 +13,8 @@ volumes of stock: w2, ..., w(n-1)
 
 ?: find sizes of flows between cities if from c1 to cn things transports every day.
 */
+
+// функцию преобразовавываем мы
+
+// методичка Алексеева
+// page 9, number 46, reduced
