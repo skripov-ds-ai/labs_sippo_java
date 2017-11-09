@@ -5,9 +5,9 @@ import com.examples.skripov.sippo.lesson2.problem.condition.sign.exception.NotSu
 import java.util.HashSet;
 
 public final class SignStringHelper {
-    private final static String EQUAL = "=";
-    private final static String LESS_OR_EQUAL = "<=";
-    private final static String MORE_OR_EQUAL = ">=";
+    public final static String EQUAL = "=";
+    public final static String LESS_OR_EQUAL = "<=";
+    public final static String MORE_OR_EQUAL = ">=";
 
     private static HashSet<String> set;
 

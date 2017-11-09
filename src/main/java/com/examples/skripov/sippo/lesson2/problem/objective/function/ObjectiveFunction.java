@@ -8,14 +8,19 @@ import java.util.List;
 public class ObjectiveFunction {
     private Extremum extremum = Extremum.MAX;
 
-    private Fraction freeFactor;
+    //private Fraction freeFactor;
     private List<Fraction> coefficients;
 
-    public ObjectiveFunction(Extremum extremum, Fraction freeFactor, List<Fraction> coefficients) {
+    public ObjectiveFunction(Extremum extremum, List<Fraction> coefficients) {
+        this.extremum = extremum;
+        this.coefficients = coefficients;
+    }
+
+    /*public ObjectiveFunction(Extremum extremum, Fraction freeFactor, List<Fraction> coefficients) {
         this.extremum = extremum;
         this.freeFactor = freeFactor;
         this.coefficients = coefficients;
-    }
+    }*/
 
     public final Extremum getExtremum() {
         return extremum;
@@ -25,13 +30,13 @@ public class ObjectiveFunction {
         this.extremum = extremum;
     }
 
-    public final Fraction getFreeFactor() {
+    /*public final Fraction getFreeFactor() {
         return freeFactor;
     }
 
     public final void setFreeFactor(Fraction freeFactor) {
         this.freeFactor = freeFactor;
-    }
+    }*/
 
     public final List<Fraction> getCoefficients() {
         return coefficients;
