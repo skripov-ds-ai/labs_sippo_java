@@ -65,6 +65,15 @@ public class Fraction {
                     new BigInteger(String.valueOf(nominator)));
     }
 
+    private Fraction reduceFraction(BigInteger nominator, BigInteger denominator) {
+        BigInteger gcd = nominator.gcd(denominator);
+
+        nominator = nominator.divide(gcd);
+        denominator = denominator.divide(gcd);
+
+        return new Fraction(nominator, denominator);
+    }
+
     public Fraction add(Fraction another) {
         BigInteger a = this.getNominator();
         BigInteger b = this.getDenominator();
@@ -79,7 +88,7 @@ public class Fraction {
         nominator = nominator.divide(gcd);
         denominator = denominator.divide(gcd);
 
-        return new Fraction(nominator, denominator);
+        return reduceFraction(nominator, denominator);
     }
 
     public Fraction sub(Fraction another) {
@@ -100,7 +109,7 @@ public class Fraction {
         nominator = nominator.divide(gcd);
         denominator = denominator.divide(gcd);
 
-        return new Fraction(nominator, denominator);
+        return reduceFraction(nominator, denominator);
     }
 
     public Fraction divide(Fraction another) {
@@ -127,9 +136,13 @@ public class Fraction {
 
     @Override
     public String toString() {
-        return "Fraction{" +
+        /*return "Fraction{" +
                 "nominator=" + nominator +
                 ", denominator=" + denominator +
-                '}';
+                '}';*/
+        if (denominator.compareTo(BigInteger.ONE) == 0) {
+            return String.valueOf(nominator);
+        }
+        return nominator + " / " + denominator;
     }
 }
