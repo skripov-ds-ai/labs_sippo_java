@@ -2,22 +2,29 @@ package com.examples.skripov.sippo.lesson2.problem.condition;
 
 import com.examples.skripov.sippo.lesson2.fraction.Fraction;
 import com.examples.skripov.sippo.lesson2.problem.condition.sign.ConditionSign;
+import com.examples.skripov.sippo.lesson2.problem.variable.VariableType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Condition {
     private ConditionSign sign = ConditionSign.LESS_OR_EQUAL;
 
-    private List<Fraction> coefficients;
+    private ArrayList<VariableType> types;
+    private ArrayList<Fraction> coefficients;
     private Fraction freeFactor;
-    private List<Fraction> artificialCoefficients = new ArrayList<>();
 
-    public Condition(ConditionSign sign, List<Fraction> coefficients, Fraction freeFactor) {
+
+    public Condition(ConditionSign sign, ArrayList<Fraction> coefficients, Fraction freeFactor) {
         this.sign = sign;
         this.coefficients = coefficients;
         this.freeFactor = freeFactor;
+        types = new ArrayList<>();
+        for (int i = 0; i < coefficients.size(); i++) {
+            types.add(VariableType.NORM);
+        }
     }
 
     public final ConditionSign getSign() {
@@ -28,12 +35,24 @@ public class Condition {
         this.sign = sign;
     }
 
-    public final List<Fraction> getCoefficients() {
+    public final ArrayList<Fraction> getCoefficients() {
         return coefficients;
     }
 
-    public final void setCoefficients(List<Fraction> coefficients) {
+    public final void setCoefficients(ArrayList<Fraction> coefficients) {
         this.coefficients = coefficients;
+    }
+
+    public final void addCoefficient(Fraction a, VariableType type) {
+        coefficients.add(a);
+        types.add(type);
+    }
+
+    public final void negateCoefficients() {
+        freeFactor.negate();
+        for (int i = 0; i < coefficients.size(); i++) {
+            coefficients.get(i).negate();
+        }
     }
 
     public final Fraction getFreeFactor() {
@@ -42,30 +61,6 @@ public class Condition {
 
     public final void setFreeFactor(Fraction freeFactor) {
         this.freeFactor = freeFactor;
-    }
-
-    public final void addArtificialCoefficients(Fraction ... artificialCoefficients) {
-        this.artificialCoefficients.addAll(Arrays.asList(artificialCoefficients));
-    }
-
-    public final long getArtificialVariablesCount() {
-        return artificialCoefficients.size();
-    }
-
-    public List<Fraction> getArtificialCoefficients() {
-        return artificialCoefficients;
-    }
-
-    public final List<Fraction> getAllCoefficients() {
-        List<Fraction> tmp = new ArrayList<>();
-        tmp.add(this.getFreeFactor());
-        tmp.addAll(this.getCoefficients());
-        tmp.addAll(this.getArtificialCoefficients());
-        return tmp;
-    }
-
-    public int getMaxIndexOfVariable() {
-        return coefficients.size() - 1;
     }
 
     @Override

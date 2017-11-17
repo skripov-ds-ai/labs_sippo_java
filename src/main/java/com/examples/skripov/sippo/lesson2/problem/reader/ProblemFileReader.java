@@ -40,7 +40,7 @@ public class ProblemFileReader implements AutoCloseable {
             //}
         }
 
-        List<Condition> conditions = new ArrayList<>();
+        ArrayList<Condition> conditions = new ArrayList<>();
 
         String src = null;
         while ((src = reader.readLine()) != null) {

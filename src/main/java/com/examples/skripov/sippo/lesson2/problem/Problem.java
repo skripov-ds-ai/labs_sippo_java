@@ -3,30 +3,31 @@ package com.examples.skripov.sippo.lesson2.problem;
 import com.examples.skripov.sippo.lesson2.problem.condition.Condition;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
 public class Problem {
     private ObjectiveFunction objectiveFunction;
 
-    private List<Condition> conditions;
+    private ArrayList<Condition> conditions;
     private int largerIndexOfVariable;
 
-    public Problem(ObjectiveFunction objectiveFunction, List<Condition> conditions) {
+    public Problem(ObjectiveFunction objectiveFunction, ArrayList<Condition> conditions) {
         this.objectiveFunction = objectiveFunction;
         this.conditions = conditions;
-        largerIndexOfVariable = 0;
-        for (Condition condition : conditions) {
-            int tmp = condition.getMaxIndexOfVariable();
-            if (largerIndexOfVariable < tmp) {
-                largerIndexOfVariable = tmp;
-            }
-        }
+        //largerIndexOfVariable = 0;
+        //for (Condition condition : conditions) {
+        //    int tmp = condition.getMaxIndexOfVariable();
+        //    if (largerIndexOfVariable < tmp) {
+        //        largerIndexOfVariable = tmp;
+        //    }
+        //}
     }
 
-    public final int getLargerIndexOfVariable() {
-        return largerIndexOfVariable;
-    }
+    //public final int getLargerIndexOfVariable() {
+    //   return largerIndexOfVariable;
+    //}
 
     public final ObjectiveFunction getObjectiveFunction() {
         return objectiveFunction;
@@ -36,11 +37,11 @@ public class Problem {
         this.objectiveFunction = objectiveFunction;
     }
 
-    public final List<Condition> getConditions() {
+    public final ArrayList<Condition> getConditions() {
         return conditions;
     }
 
-    public final void setConditions(List<Condition> conditions) {
+    public final void setConditions(ArrayList<Condition> conditions) {
         this.conditions = conditions;
     }
 

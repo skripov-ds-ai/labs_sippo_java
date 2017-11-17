@@ -18,7 +18,7 @@ public class ObjectiveStringReaderTest {
     public void testGetObjectiveFunctionMaxUpperCase() throws IOException, NotSupportExtremumStringException {
         String src = "1 2 MAX";
 
-        List<Fraction> coefficients = Arrays.asList(new Fraction(1), new Fraction(2));
+        ArrayList<Fraction> coefficients = new ArrayList<>(Arrays.asList(new Fraction(1), new Fraction(2)));
 
         ObjectiveFunction actual = null;
         ObjectiveFunction expected = new ObjectiveFunction(Extremum.MAX, coefficients);
@@ -39,7 +39,7 @@ public class ObjectiveStringReaderTest {
     public void testGetObjectiveFunctionMaxLowerCase() throws IOException, NotSupportExtremumStringException {
         String src = "1 2     max";
 
-        List<Fraction> coefficients = Arrays.asList(new Fraction(1), new Fraction(2));
+        ArrayList<Fraction> coefficients = new ArrayList<>(Arrays.asList(new Fraction(1), new Fraction(2)));
 
         ObjectiveFunction actual = null;
         ObjectiveFunction expected = new ObjectiveFunction(Extremum.MAX, coefficients);
@@ -60,7 +60,7 @@ public class ObjectiveStringReaderTest {
     public void testGetObjectiveFunctionMinLowerUpperCase() throws IOException, NotSupportExtremumStringException {
         String src = "1   2    mIN";
 
-        List<Fraction> coefficients = Arrays.asList(new Fraction(1), new Fraction(2));
+        ArrayList<Fraction> coefficients = new ArrayList<>(Arrays.asList(new Fraction(1), new Fraction(2)));
 
         ObjectiveFunction actual = null;
         ObjectiveFunction expected = new ObjectiveFunction(Extremum.MIN, coefficients);

@@ -1,4 +1,4 @@
-package com.examples.skripov.sippo.lesson2.problem.reader;
+package com.examples.skripov.sippo.lesson2.problem.processor;
 
 import com.examples.skripov.sippo.lesson2.fraction.Fraction;
 import com.examples.skripov.sippo.lesson2.problem.Problem;
@@ -6,22 +6,19 @@ import com.examples.skripov.sippo.lesson2.problem.condition.Condition;
 import com.examples.skripov.sippo.lesson2.problem.condition.sign.ConditionSign;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.extremum.Extremum;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProblemFileReaderTest {
+public class ProblemProcessorTest {
+    private Problem problem;
 
-    @Test
-    public void testReadProblemFromResources() throws Exception {
-        Problem actual = null;
-
-
-        ArrayList<Fraction> coefficients = (new ArrayList<>());
-        coefficients.addAll(Arrays.asList(new Fraction(1), new Fraction(2)));
+    @Before
+    public void setUp() {
+        ArrayList<Fraction> coefficients = new ArrayList<>(Arrays.asList(new Fraction(1), new Fraction(2)));
         ObjectiveFunction function = new ObjectiveFunction(Extremum.MAX, coefficients);
 
         Condition condition1 = new Condition(
@@ -43,18 +40,13 @@ public class ProblemFileReaderTest {
                         new Fraction(1))),
                 new Fraction(3));
 
-        Problem expected = new Problem(function, new ArrayList<>(Arrays.asList(condition1, condition2, condition3)));
+        problem = new Problem(function, new ArrayList<>(Arrays.asList(condition1, condition2, condition3)));
+    }
 
-        File file = new File("src/test/resources/lesson2/problem/reader/src.txt");
-
-        try (
-                ProblemFileReader reader = new ProblemFileReader(file);
-                ) {
-            actual = reader.readProblem();
-        }
-
-        System.out.println(actual);
-
-        Assert.assertEquals(expected, actual);
+    @Test
+    public void testMakeCanonicalProblem() {
+        //System.out.println(problem);
+        Problem problem1 = ProblemProcessor.makeCanonicalProblem(problem);
+        System.out.println(problem1);
     }
 }

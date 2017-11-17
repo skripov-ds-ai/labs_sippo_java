@@ -35,7 +35,7 @@ public class ConditionStringReader /*implements AutoCloseable*/ {
 
         Fraction freeFactor = new Fraction(Long.parseLong(strings[strings.length - 1]));
 
-        List<Fraction> coefficients = new ArrayList<>();
+        ArrayList<Fraction> coefficients = new ArrayList<>();
         for (int i = 0; i < strings.length - 2; i++) {
             coefficients.add(new Fraction(Long.parseLong(strings[i])));
         }

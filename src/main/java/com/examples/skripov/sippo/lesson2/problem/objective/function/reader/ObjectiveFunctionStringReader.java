@@ -27,7 +27,7 @@ public class ObjectiveFunctionStringReader /*implements AutoCloseable*/ {
 
         Extremum extremum = ExtremumStringHelper.getConditionSign(strings[strings.length - 1].toUpperCase());
 
-        List<Fraction> coefficients = new ArrayList<>();
+        ArrayList<Fraction> coefficients = new ArrayList<>();
         for (int i = 0; i < strings.length - 1; i++) {
             coefficients.add(new Fraction(Long.parseLong(strings[i])));
         }

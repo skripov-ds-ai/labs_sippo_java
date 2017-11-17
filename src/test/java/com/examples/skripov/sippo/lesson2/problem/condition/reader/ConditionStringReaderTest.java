@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConditionStringReaderTest {
@@ -19,9 +20,9 @@ public class ConditionStringReaderTest {
         Condition actual = null;
         Condition expected = new Condition(
                 ConditionSign.EQUAL,
-                Arrays.asList(
+                new ArrayList<>(Arrays.asList(
                         new Fraction(2),
-                        new Fraction(3)),
+                        new Fraction(3))),
                 new Fraction(1));
 
         {
@@ -43,9 +44,9 @@ public class ConditionStringReaderTest {
         Condition actual = null;
         Condition expected = new Condition(
                 ConditionSign.LESS_OR_EQUAL,
-                Arrays.asList(
+                new ArrayList<>(Arrays.asList(
                         new Fraction(4),
-                        new Fraction(5)),
+                        new Fraction(5))),
                 new Fraction(2));
 
         {
@@ -68,9 +69,9 @@ public class ConditionStringReaderTest {
         Condition actual = null;
         Condition expected = new Condition(
                 ConditionSign.MORE_OR_EQUAL,
-                Arrays.asList(
+                new ArrayList<>(Arrays.asList(
                         new Fraction(0),
-                        new Fraction(1)),
+                        new Fraction(1))),
                 new Fraction(3));
         {
         //try (
