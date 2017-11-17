@@ -12,17 +12,20 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjectiveFunctionStringReader {
-    private BufferedReader reader;
+public class ObjectiveFunctionStringReader /*implements AutoCloseable*/ {
+    //private BufferedReader reader;
+
+    private String s;
 
     public ObjectiveFunctionStringReader(String s) {
-        reader = new BufferedReader(new StringReader(s));
+        this.s = s;
+        //reader = new BufferedReader(new StringReader(s));
     }
 
     public ObjectiveFunction readObjectiveFunction() throws IOException, NotSupportExtremumStringException {
-        String[] strings = reader.readLine().split("[\\s\\n\\r\\t]*");
+        String[] strings = s.split("[\\s\t]+");//reader.readLine().split("[\\s]+");
 
-        Extremum extremum = ExtremumStringHelper.getConditionSign(strings[strings.length - 1]);
+        Extremum extremum = ExtremumStringHelper.getConditionSign(strings[strings.length - 1].toUpperCase());
 
         List<Fraction> coefficients = new ArrayList<>();
         for (int i = 0; i < strings.length - 1; i++) {
@@ -31,4 +34,9 @@ public class ObjectiveFunctionStringReader {
 
         return new ObjectiveFunction(extremum, coefficients);
     }
+
+    /*@Override
+    public void close() throws Exception {
+        reader.close();
+    }*/
 }

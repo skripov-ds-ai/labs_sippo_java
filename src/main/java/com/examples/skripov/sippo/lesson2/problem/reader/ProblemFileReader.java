@@ -1,8 +1,14 @@
 package com.examples.skripov.sippo.lesson2.problem.reader;
 
 import com.examples.skripov.sippo.lesson2.problem.Problem;
+import com.examples.skripov.sippo.lesson2.problem.condition.Condition;
+import com.examples.skripov.sippo.lesson2.problem.condition.reader.ConditionStringReader;
+import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
+import com.examples.skripov.sippo.lesson2.problem.objective.function.reader.ObjectiveFunctionStringReader;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProblemFileReader implements AutoCloseable {
     BufferedReader reader;
@@ -21,12 +27,34 @@ public class ProblemFileReader implements AutoCloseable {
         );
     }
 
-    public Problem read() throws IOException {
-        Problem problem;
+    public Problem readProblem() throws Exception {
+        Problem problem = null;
 
+        ObjectiveFunction function = null;
 
+        {
+            //try(
+            ObjectiveFunctionStringReader reader = new ObjectiveFunctionStringReader(this.reader.readLine());
+            //) {
+            function = reader.readObjectiveFunction();
+            //}
+        }
 
-        return null;
+        List<Condition> conditions = new ArrayList<>();
+
+        String src = null;
+        while ((src = reader.readLine()) != null) {
+            {
+            //try (
+                    ConditionStringReader reader = new ConditionStringReader(src);
+            //) {
+                conditions.add(reader.readCondition());
+            }
+        }
+
+        problem = new Problem(function, conditions);
+
+        return problem;
     }
 
     @Override

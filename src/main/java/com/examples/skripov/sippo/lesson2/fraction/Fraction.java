@@ -1,119 +1,157 @@
 package com.examples.skripov.sippo.lesson2.fraction;
 
-import java.math.BigInteger;
+import static java.lang.Math.abs;
 
-public class Fraction {
-    private BigInteger nominator;
-    private BigInteger denominator;
+public class Fraction implements Comparable<Fraction> {
+    public static final Fraction ZERO = new Fraction(0);
+    public static final Fraction ONE = new Fraction(1);
+
+    private long nominator;
+    private long denominator;
 
     public Fraction(int nominator) {
-        this.nominator = BigInteger.valueOf(nominator);
-        this.denominator = BigInteger.ONE;
+        this((long) nominator);
     }
 
     public Fraction(long nominator) {
-        this.nominator = BigInteger.valueOf(nominator);
-        this.denominator = BigInteger.ONE;
-    }
-
-    public Fraction(BigInteger nominator) {
-        this.nominator = nominator;
-        this.denominator = BigInteger.ONE;
+        this(nominator, 1);
     }
 
     public Fraction(int nominator, int denominator) {
-        if (denominator <= 0) {
-            throw new IllegalArgumentException("Illegal value of denominator. denominator = " + denominator);
-        }
-        this.nominator = BigInteger.valueOf(nominator);
-        this.denominator = BigInteger.valueOf(denominator);
+        this((long) nominator, (long) denominator);
     }
 
     public Fraction(long nominator, long denominator) {
         if (denominator <= 0) {
             throw new IllegalArgumentException("Illegal value of denominator. denominator = " + denominator);
         }
-        this.nominator = BigInteger.valueOf(nominator);
-        this.denominator = BigInteger.valueOf(denominator);
-    }
-
-    public Fraction(BigInteger nominator, BigInteger denominator) {
-        if (denominator.compareTo(BigInteger.ZERO) <= 0) {
-            throw new IllegalArgumentException("Illegal value of denominator. denominator = " + denominator);
-        }
         this.nominator = nominator;
         this.denominator = denominator;
     }
 
-    public BigInteger getNominator() {
+    public long getNominator() {
         return nominator;
     }
 
-    public BigInteger getDenominator() {
+    public long getDenominator() {
         return denominator;
     }
 
-    public Fraction negate() {
+    public void negate() {
+        nominator *= -1;
+    }
+
+    public void reverse() {
+        long tmp = denominator;
+        denominator = nominator;
+        nominator = tmp;
+    }
+
+    private void reduce() {
+        long gcd = gcd(abs(nominator), abs(denominator));
+
+        nominator /= gcd;
+        denominator /= gcd;
+    }
+
+    public void add(Fraction another) {
+        long a = this.getNominator();
+        long b = this.getDenominator();
+        long c = another.getNominator();
+        long d = another.getDenominator();
+
+        nominator = a * d + c * b;
+        denominator = b * d;
+
+        reduce();
+    }
+
+    public void sub(Fraction another) {
+        add(another.negating());
+    }
+
+    public void mult(Fraction another) {
+        long a = this.getNominator();
+        long b = this.getDenominator();
+        long c = another.getNominator();
+        long d = another.getDenominator();
+
+        nominator = a * c;
+        denominator = b * d;
+
+        reduce();
+    }
+
+    public void div(Fraction another) {
+        mult(another.reversing());
+    }
+
+
+
+
+    public Fraction negating() {
         return  new Fraction(
-                    nominator.negate(),
+                    -nominator,
                     denominator);
     }
 
-    public Fraction reverse() {
+    public Fraction reversing() {
         return  new Fraction(
-                    new BigInteger(String.valueOf(denominator)),
-                    new BigInteger(String.valueOf(nominator)));
+                denominator,
+                nominator
+        );
     }
 
-    private Fraction reduceFraction(BigInteger nominator, BigInteger denominator) {
-        BigInteger gcd = nominator.gcd(denominator);
+    private Fraction reductionFraction(long nominator, long denominator) {
+        long gcd = gcd(nominator, denominator);
 
-        nominator = nominator.divide(gcd);
-        denominator = denominator.divide(gcd);
+        nominator /= gcd;
+        denominator /= gcd;
 
         return new Fraction(nominator, denominator);
     }
 
-    public Fraction add(Fraction another) {
-        BigInteger a = this.getNominator();
-        BigInteger b = this.getDenominator();
-        BigInteger c = another.getNominator();
-        BigInteger d = another.getDenominator();
+    public Fraction addition(Fraction another) {
+        long a = this.getNominator();
+        long b = this.getDenominator();
+        long c = another.getNominator();
+        long d = another.getDenominator();
 
-        BigInteger nominator = a.multiply(d).add(c.multiply(b));
-        BigInteger denominator = b.multiply(d);
+        long nominator = a * d + c * b;
+        long denominator = b * d;
 
-        BigInteger gcd = nominator.gcd(denominator);
-
-        nominator = nominator.divide(gcd);
-        denominator = denominator.divide(gcd);
-
-        return reduceFraction(nominator, denominator);
+        return reductionFraction(nominator, denominator);
     }
 
-    public Fraction sub(Fraction another) {
-        return add(another.negate());
+    public Fraction subtraction(Fraction another) {
+        return addition(another.negating());
     }
 
-    public Fraction mult(Fraction another) {
-        BigInteger a = this.getNominator();
-        BigInteger b = this.getDenominator();
-        BigInteger c = another.getNominator();
-        BigInteger d = another.getDenominator();
+    public Fraction multiplication(Fraction another) {
+        long a = this.getNominator();
+        long b = this.getDenominator();
+        long c = another.getNominator();
+        long d = another.getDenominator();
 
-        BigInteger nominator = a.multiply(c);
-        BigInteger denominator = b.multiply(d);
+        long nominator = a * c;
+        long denominator = b * d;
 
-        BigInteger gcd = nominator.gcd(denominator);
-
-        nominator = nominator.divide(gcd);
-        denominator = denominator.divide(gcd);
-
-        return reduceFraction(nominator, denominator);
+        return reductionFraction(nominator, denominator);
     }
 
-    public Fraction divide(Fraction another) {
-        return mult(another.reverse());
+    public Fraction division(Fraction another) {
+        return multiplication(another.reversing());
+    }
+
+    private static long gcd(long a, long b) {
+        while (b != 0) {
+            a %= b;
+
+            long t = a;
+            a = b;
+            b = t;
+        }
+        return a;
     }
 
     @Override
@@ -123,26 +161,40 @@ public class Fraction {
 
         Fraction fraction = (Fraction) o;
 
-        if (nominator != null ? !nominator.equals(fraction.nominator) : fraction.nominator != null) return false;
-        return denominator != null ? denominator.equals(fraction.denominator) : fraction.denominator == null;
+        if (nominator != fraction.nominator) return false;
+        return denominator == fraction.denominator;
     }
 
     @Override
     public int hashCode() {
-        int result = nominator != null ? nominator.hashCode() : 0;
-        result = 31 * result + (denominator != null ? denominator.hashCode() : 0);
+        int result = (int) (nominator ^ (nominator >>> 32));
+        result = 31 * result + (int) (denominator ^ (denominator >>> 32));
         return result;
     }
 
     @Override
     public String toString() {
-        /*return "Fraction{" +
-                "nominator=" + nominator +
-                ", denominator=" + denominator +
-                '}';*/
-        if (denominator.compareTo(BigInteger.ONE) == 0) {
+        if (denominator == 1) {
             return String.valueOf(nominator);
         }
-        return nominator + " / " + denominator;
+        return nominator + "/" + denominator;
+    }
+
+    @Override
+    public int compareTo(Fraction o) {
+        long a = nominator;
+        long b = denominator;
+        long c = o.getNominator();
+        long d = o.getDenominator();
+
+        long cond = a*d - b*c;
+
+        if (cond < 0) {
+            return -1;
+        }
+        if (cond > 0) {
+            return 1;
+        }
+        return 0;
     }
 }

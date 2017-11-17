@@ -45,4 +45,30 @@ public class ObjectiveFunction {
     public final void setCoefficients(List<Fraction> coefficients) {
         this.coefficients = coefficients;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ObjectiveFunction that = (ObjectiveFunction) o;
+
+        if (extremum != that.extremum) return false;
+        return coefficients != null ? coefficients.equals(that.coefficients) : that.coefficients == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = extremum != null ? extremum.hashCode() : 0;
+        result = 31 * result + (coefficients != null ? coefficients.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ObjectiveFunction{" +
+                "extremum=" + extremum +
+                ", coefficients=" + coefficients +
+                '}';
+    }
 }

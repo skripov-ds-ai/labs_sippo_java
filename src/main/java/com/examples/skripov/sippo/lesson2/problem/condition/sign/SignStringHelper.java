@@ -12,14 +12,15 @@ public final class SignStringHelper {
     private static HashSet<String> set;
 
     static {
+        set = new HashSet<>();
         set.add(EQUAL);
         set.add(LESS_OR_EQUAL);
         set.add(MORE_OR_EQUAL);
     }
 
     public static ConditionSign getConditionSign(String s) throws NotSupportedSignException {
-        if (set.contains(s)) {
-            throw new NotSupportedSignException();
+        if (!set.contains(s)) {
+            throw new NotSupportedSignException("s = " + s);
         }
 
         switch (s) {
@@ -33,7 +34,7 @@ public final class SignStringHelper {
                 return ConditionSign.MORE_OR_EQUAL;
             }
             default: {
-                throw new NotSupportedSignException();
+                throw new NotSupportedSignException("s = " + s);
             }
         }
     }

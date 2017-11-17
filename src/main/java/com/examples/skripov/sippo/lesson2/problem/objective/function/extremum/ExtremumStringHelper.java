@@ -11,12 +11,13 @@ public class ExtremumStringHelper {
     private static HashSet<String> set;
 
     static {
+        set = new HashSet<>();
         set.add(MAX);
         set.add(MIN);
     }
 
     public static Extremum getConditionSign(String s) throws NotSupportExtremumStringException {
-        if (set.contains(s)) {
+        if (!set.contains(s)) {
             throw new NotSupportExtremumStringException();
         }
 

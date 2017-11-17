@@ -12,15 +12,24 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConditionStringReader implements AutoCloseable {
-    private BufferedReader reader;
+public class ConditionStringReader /*implements AutoCloseable*/ {
+    //private BufferedReader reader;
+
+    private String s;
 
     public ConditionStringReader(String s) {
-        reader = new BufferedReader(new StringReader(s));
+        this.s = s;
+        //reader = new BufferedReader(new StringReader(s));
     }
 
-    public Condition read() throws IOException, NotSupportedSignException {
-        String[] strings = reader.readLine().split("[\\s\\n\\r\\t]*");
+    public Condition readCondition() throws IOException, NotSupportedSignException {
+        String[] strings = s.split("[\\s\t]+");//reader.readLine().split("[\\s\r\t]+");
+
+        /*System.out.println("***");
+        for (String s: strings) {
+            System.out.println(s);
+        }
+        System.out.println("###");*/
 
         ConditionSign sign = SignStringHelper.getConditionSign(strings[strings.length - 2]);
 
@@ -34,8 +43,8 @@ public class ConditionStringReader implements AutoCloseable {
         return new Condition(sign, coefficients, freeFactor);
     }
 
-    @Override
+    /*@Override
     public void close() throws Exception {
         reader.close();
-    }
+    }*/
 }
