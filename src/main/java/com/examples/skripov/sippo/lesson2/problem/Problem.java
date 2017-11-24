@@ -1,19 +1,25 @@
 package com.examples.skripov.sippo.lesson2.problem;
 
+import com.examples.skripov.sippo.lesson2.fraction.Fraction;
 import com.examples.skripov.sippo.lesson2.problem.condition.Condition;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
+import com.examples.skripov.sippo.lesson2.problem.variable.VariableType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class Problem {
     private ObjectiveFunction objectiveFunction;
 
     private ArrayList<Condition> conditions;
-    private int largerIndexOfVariable;
+    private Set<String> normVariables;
+
+    public Problem(ObjectiveFunction objectiveFunction, ArrayList<Condition> conditions, Set<String> normVariables) {
+        this(objectiveFunction, conditions);
+        this.normVariables = normVariables;
+    }
 
     public Problem(ObjectiveFunction objectiveFunction, ArrayList<Condition> conditions) {
+        //System.out.println("f = "+objectiveFunction);
         this.objectiveFunction = objectiveFunction;
         this.conditions = conditions;
         //largerIndexOfVariable = 0;
@@ -29,6 +35,22 @@ public class Problem {
     //   return largerIndexOfVariable;
     //}
 
+    public final void createNormVariables() {
+        normVariables = new HashSet<>();
+    }
+
+    public final void addNormalName(String name) {
+        normVariables.add(name);
+    }
+
+    public final Set<String> getNormVariables() {
+        return normVariables;
+    }
+
+    public final void setNormVariables(Set<String> normVariables) {
+        this.normVariables = normVariables;
+    }
+
     public final ObjectiveFunction getObjectiveFunction() {
         return objectiveFunction;
     }
@@ -43,6 +65,22 @@ public class Problem {
 
     public final void setConditions(ArrayList<Condition> conditions) {
         this.conditions = conditions;
+    }
+
+    public final void addArtificialVariables() {
+        for (int i = 0; i < conditions.size(); i++) {
+            for (int j = 0; j < conditions.size(); j++) {
+                if (i == j) {
+                    addVariable2Condition(i, new Fraction(1), VariableType.ARTIFICIAL);
+                } else {
+                    addVariable2Condition(i, new Fraction(0), VariableType.ARTIFICIAL);
+                }
+            }
+        }
+    }
+
+    private final void addVariable2Condition(int index, Fraction a, VariableType type) {
+        conditions.get(index).addCoefficient(a, type);
     }
 
     @Override

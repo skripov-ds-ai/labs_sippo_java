@@ -5,9 +5,6 @@ import com.examples.skripov.sippo.lesson2.problem.condition.sign.ConditionSign;
 import com.examples.skripov.sippo.lesson2.problem.variable.VariableType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 public class Condition {
     private ConditionSign sign = ConditionSign.LESS_OR_EQUAL;
@@ -15,7 +12,6 @@ public class Condition {
     private ArrayList<VariableType> types;
     private ArrayList<Fraction> coefficients;
     private Fraction freeFactor;
-
 
     public Condition(ConditionSign sign, ArrayList<Fraction> coefficients, Fraction freeFactor) {
         this.sign = sign;
@@ -43,6 +39,17 @@ public class Condition {
         this.coefficients = coefficients;
     }
 
+    public ArrayList<VariableType> getTypes() {
+        return types;
+    }
+
+    public final ArrayList<Fraction> allCoefficients() {
+        ArrayList<Fraction> allCoefs = new ArrayList<>();
+        allCoefs.add(freeFactor);
+        allCoefs.addAll(coefficients);
+        return allCoefs;
+    }
+
     public final void addCoefficient(Fraction a, VariableType type) {
         coefficients.add(a);
         types.add(type);
@@ -50,6 +57,12 @@ public class Condition {
 
     public final void negateCoefficients() {
         freeFactor.negate();
+        for (int i = 0; i < coefficients.size(); i++) {
+            coefficients.get(i).negate();
+        }
+    }
+
+    public final void negateVarCoefficients() {
         for (int i = 0; i < coefficients.size(); i++) {
             coefficients.get(i).negate();
         }
@@ -88,6 +101,7 @@ public class Condition {
     public String toString() {
         return "Condition{" +
                 "sign=" + sign +
+                ", types=" + types +
                 ", coefficients=" + coefficients +
                 ", freeFactor=" + freeFactor +
                 '}';

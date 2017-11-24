@@ -40,7 +40,7 @@ public class ObjectiveFunction {
     }*/
 
     public final void addZeroCoefficient() {
-        coefficients.add(Fraction.ZERO);
+        coefficients.add(new Fraction(0));
     }
 
     public final void negateCoefficients() {
@@ -55,6 +55,15 @@ public class ObjectiveFunction {
 
     public final void setCoefficients(ArrayList<Fraction> coefficients) {
         this.coefficients = coefficients;
+    }
+
+    public final ArrayList<Fraction> getCoefficientsForTable() {
+        ArrayList<Fraction> tmp = new ArrayList<>();
+        tmp.add(coefficients.get(0).identity());
+        for (int i = 1; i < coefficients.size(); i++) {
+            tmp.add(coefficients.get(i).negating());
+        }
+        return tmp;
     }
 
     @Override

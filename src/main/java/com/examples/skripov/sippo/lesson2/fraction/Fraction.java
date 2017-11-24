@@ -3,8 +3,6 @@ package com.examples.skripov.sippo.lesson2.fraction;
 import static java.lang.Math.abs;
 
 public class Fraction implements Comparable<Fraction> {
-    public static final Fraction ZERO = new Fraction(0);
-    public static final Fraction ONE = new Fraction(1);
 
     private long nominator;
     private long denominator;
@@ -42,9 +40,10 @@ public class Fraction implements Comparable<Fraction> {
     }
 
     public void reverse() {
-        long tmp = denominator;
-        denominator = nominator;
-        nominator = tmp;
+        long tmpDenominator = Math.abs(nominator);
+        long tmpNominator =  sign(nominator) * denominator;
+        denominator = tmpDenominator;
+        nominator = tmpNominator;
     }
 
     private void reduce() {
@@ -95,15 +94,27 @@ public class Fraction implements Comparable<Fraction> {
                     denominator);
     }
 
+    private long sign(long a) {
+        if (a > 0) {
+            return 1;
+        }
+        if (a == 0) {
+            return 0;
+        }
+        return -1;
+    }
+
     public Fraction reversing() {
+        long tmpDenominator = Math.abs(nominator);
+        long tmpNominator =  sign(nominator) * denominator;
         return  new Fraction(
-                denominator,
-                nominator
+                tmpNominator,
+                tmpDenominator
         );
     }
 
     private Fraction reductionFraction(long nominator, long denominator) {
-        long gcd = gcd(nominator, denominator);
+        long gcd = gcd(abs(nominator), abs(denominator));
 
         nominator /= gcd;
         denominator /= gcd;
@@ -152,6 +163,10 @@ public class Fraction implements Comparable<Fraction> {
             b = t;
         }
         return a;
+    }
+
+    public Fraction identity() {
+        return new Fraction(nominator, denominator);
     }
 
     @Override

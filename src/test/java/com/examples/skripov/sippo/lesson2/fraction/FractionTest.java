@@ -144,4 +144,15 @@ public class FractionTest {
 
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void changingTest() {
+        Fraction a = new Fraction(2);
+        Fraction b = new Fraction(1);
+
+        a.add(b);
+
+        System.out.println(a);
+        System.out.println(b);
+    }
 }
