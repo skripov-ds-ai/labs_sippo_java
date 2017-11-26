@@ -7,6 +7,7 @@ import com.examples.skripov.sippo.lesson2.problem.condition.sign.ConditionSign;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.extremum.Extremum;
 import com.examples.skripov.sippo.lesson2.problem.processor.ProblemProcessor;
+import com.examples.skripov.sippo.lesson2.solver.simplex_table.SimplexTable;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -90,6 +91,12 @@ public class ArtificialBasicTechniqueSolverTest {
         System.out.println(problem1);
 
         ArtificialBasicTechniqueSolver solver = new ArtificialBasicTechniqueSolver();
-        solver.solve(problem1);
+        SimplexTable tableau = solver.solve(problem1);
+
+        System.out.println(tableau.getStringTable());
+
+        System.out.println(tableau.getOptimalValueOfFunction());
+        System.out.println(tableau.getOptimalVector());
+
     }
 }

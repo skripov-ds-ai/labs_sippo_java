@@ -11,6 +11,7 @@ import java.util.*;
 
 // todo: make it Cloneable
 public class SimplexTable  {
+    private Problem problem;
     private BiMap<Integer, String> rowsMap;
     private BiMap<Integer, String> columnsMap;
     private HashMap<String, VariableType> variableTypeMap;
@@ -21,6 +22,7 @@ public class SimplexTable  {
         rowsMap = new BiMap<>();
         columnsMap = new BiMap<>();
         variableTypeMap = new HashMap<>();
+        this.problem = problem;
 
         tableau = new ArrayList<>();
 
@@ -43,6 +45,77 @@ public class SimplexTable  {
 
         }
     }
+
+    public BiMap<Integer, String> getRowsMap() {
+        return rowsMap;
+    }
+
+    public BiMap<Integer, String> getColumnsMap() {
+        return columnsMap;
+    }
+
+    public HashMap<String, VariableType> getVariableTypeMap() {
+        return variableTypeMap;
+    }
+
+    public List<List<Fraction>> getTableau() {
+        return tableau;
+    }
+
+    public Fraction getOptimalValueOfFunction() {
+        if (problem.isWasMin()) {
+            return getElem(0, 0).negating();
+        }
+        return getElem(0, 0).identity();
+    }
+
+    public List<Fraction> getOptimalVector() {
+        Map<String, Fraction> map = new HashMap<>();
+
+        Map<String, Integer> rows = (new HashMap<>());
+        rows.putAll(rowsMap.getM2t());
+
+        for (Map.Entry<String, Integer> entry : rows.entrySet()) {
+            if (variableTypeMap.get(entry.getKey()).equals(VariableType.NORM)) {
+                map.put(entry.getKey(), tableau.get(entry.getValue()).get(0));
+            }
+        }
+
+        //System.out.println("SIZE:");
+        //System.out.println(problem.getObjectiveFunction().getCoefficients().size() - 1);
+        //System.out.println();
+        //System.out.println(rows);
+
+        int sizeOfVector = problem.getObjectiveFunction().getCoefficients().size() - 1;
+
+        List<Fraction> answer = new ArrayList<>();
+        for (int i = 0; i < sizeOfVector; i++) {
+            answer.add(new Fraction(0));
+        }
+
+        for (Map.Entry<String, Fraction> entry : map.entrySet()) {
+            int id = Integer.parseInt(entry.getKey().substring(1)) - 1;
+            answer.get(id).add(entry.getValue());
+        }
+
+        return answer;
+    }
+
+    public List<Fraction> getFunctionCoefs() {
+        return tableau.get(0);
+    }
+
+    public List<Fraction> getIthRow(int i) {
+        return tableau.get(i);
+    }
+
+    public Fraction getElem(int i, int j) {
+        return tableau.get(i).get(j);
+    }
+
+    //public Integer keyJ() {
+//
+    //}
 
     public void associateRowIndex2String(Integer index, String s) {
         rowsMap.add(index, s);
@@ -78,6 +151,14 @@ public class SimplexTable  {
         return true;
     }
 
+    public int rowsCount() {
+        return tableau.size();
+    }
+
+    public int columnsCount() {
+        return tableau.get(0).size();
+    }
+
     public void relaxTableau(int p, int q) {
         changeRowAndColumnStrings(p, q);
 
@@ -89,6 +170,9 @@ public class SimplexTable  {
                         Fraction forChange = tableau.get(i).get(j);
                         Fraction delta = tableau.get(i).get(q).multiplication(tableau.get(p).get(j)).division(pivot);
                         forChange.sub(delta);
+                        /*if (i == 0) {
+                            System.out.println("elem = " + forChange);
+                        }*/
                     }
                 }
             }
@@ -101,6 +185,7 @@ public class SimplexTable  {
                 forChange.div(pivot);
             }
         }
+
 
         if (variableTypeMap.get(columnsMap.getM(q)) == VariableType.ARTIFICIAL) {
             // delete artificial column

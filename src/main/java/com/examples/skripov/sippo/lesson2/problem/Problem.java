@@ -13,6 +13,8 @@ public class Problem {
     private ArrayList<Condition> conditions;
     private Set<String> normVariables;
 
+    private boolean wasMin = false;
+
     public Problem(ObjectiveFunction objectiveFunction, ArrayList<Condition> conditions, Set<String> normVariables) {
         this(objectiveFunction, conditions);
         this.normVariables = normVariables;
@@ -34,6 +36,15 @@ public class Problem {
     //public final int getLargerIndexOfVariable() {
     //   return largerIndexOfVariable;
     //}
+
+
+    public void setWasMin(boolean wasMin) {
+        this.wasMin = wasMin;
+    }
+
+    public boolean isWasMin() {
+        return wasMin;
+    }
 
     public final void createNormVariables() {
         normVariables = new HashSet<>();
@@ -116,7 +127,9 @@ public class Problem {
     public String toString() {
         return "Problem{" +
                 "objectiveFunction=" + objectiveFunction +
-                ", conditions=" + conditionsToString(conditions) +
+                ", conditions=" + conditions +
+                ", normVariables=" + normVariables +
+                ", wasMin=" + wasMin +
                 '}';
     }
 }

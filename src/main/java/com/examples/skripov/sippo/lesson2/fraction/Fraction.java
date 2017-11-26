@@ -27,6 +27,10 @@ public class Fraction implements Comparable<Fraction> {
         this.denominator = denominator;
     }
 
+    public Fraction(Fraction other) {
+        this(other.getNominator(), other.getDenominator());
+    }
+
     public long getNominator() {
         return nominator;
     }

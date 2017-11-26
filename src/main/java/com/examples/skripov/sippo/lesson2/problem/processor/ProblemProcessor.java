@@ -39,6 +39,7 @@ public class ProblemProcessor {
         ObjectiveFunction function = problem.getObjectiveFunction();
         //System.out.println(function);
         if (function.getExtremum().equals(Extremum.MIN)) {
+            problem.setWasMin(true);
             function.negateCoefficients();
             //System.out.println(function);
         }

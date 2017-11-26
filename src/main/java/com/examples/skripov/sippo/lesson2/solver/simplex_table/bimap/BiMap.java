@@ -35,6 +35,14 @@ public final class BiMap<T, M> {
         t2m.remove(t);
     }
 
+    public Map<T, M> getT2m() {
+        return t2m;
+    }
+
+    public Map<M, T> getM2t() {
+        return m2t;
+    }
+
     @Override
     public String toString() {
         return "BiMap{" +
