@@ -7,19 +7,23 @@ import com.examples.skripov.sippo.lesson2.problem.condition.sign.ConditionSign;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.ObjectiveFunction;
 import com.examples.skripov.sippo.lesson2.problem.objective.function.extremum.Extremum;
 import com.examples.skripov.sippo.lesson2.problem.processor.ProblemProcessor;
+import com.examples.skripov.sippo.lesson2.problem.reader.ProblemFileReader;
 import com.examples.skripov.sippo.lesson2.solver.simplex_table.SimplexTable;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArtificialBasicTechniqueSolverTest {
     private Problem problem;
     private Problem problem1;
+    private Problem problem2;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         ArrayList<Fraction> coefficients = new ArrayList<>(Arrays.asList(new Fraction(0), new Fraction(1), new Fraction(2)));
         ObjectiveFunction function = new ObjectiveFunction(Extremum.MAX, coefficients);
 
@@ -56,7 +60,7 @@ public class ArtificialBasicTechniqueSolverTest {
             )
         );
 
-        function = new ObjectiveFunction(Extremum.MAX, coefficients);
+        function = new ObjectiveFunction(Extremum.MIN, coefficients);
 
         condition1 = new Condition(
                 ConditionSign.EQUAL,
@@ -83,7 +87,20 @@ public class ArtificialBasicTechniqueSolverTest {
         problem1 = ProblemProcessor.makeCanonicalProblem(
                 new Problem(function, new ArrayList<>(Arrays.asList(condition1, condition2)))
         );
+
+
+        File file = new File("src/test/resources/lesson2/problem/reader/src1.txt");
+
+        try (
+                ProblemFileReader reader = new ProblemFileReader(file);
+        ) {
+            problem2 = reader.readProblem();
+            System.out.println("!!!! " + ProblemProcessor.countOfVariables(problem2));
+            problem2 = ProblemProcessor.makeCanonicalProblem(problem2);
+            System.out.println(problem2);
+        }
     }
+
 
 
     @Test
@@ -99,4 +116,38 @@ public class ArtificialBasicTechniqueSolverTest {
         System.out.println(tableau.getOptimalVector());
 
     }
+
+    @Test
+    public void testSolveMyProblem() {
+        //throw new IllegalArgumentException();
+        ArtificialBasicTechniqueSolver solver = new ArtificialBasicTechniqueSolver();
+
+        //System.out.println(problem2);
+
+        SimplexTable tableau = solver.solve(problem2);
+
+        // todo почему-то есть ненулевые компоненты, которые должны быть нулями!
+        System.out.println(tableau.getStringTable());
+        System.out.println();
+        System.out.println();
+        System.out.println(tableau);
+        System.out.println();
+        System.out.println();
+
+        System.out.println(tableau.getOptimalVector());
+
+        System.out.println(tableau.getOptimalValueOfFunction());
+    }
+
 }
+
+/*
+1 <= 1
+0 1 <= 1
+0 0 1 <= 1
+0 0 0 1 <= 1
+0 0 0 0 1 <= 1
+0 0 0 0 0 1 <= 1
+0 0 0 0 0 0 1 <= 1
+0 0 0 0 0 0 0 1 <= 1
+ */

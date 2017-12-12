@@ -31,6 +31,8 @@ public class ProblemProcessor {
             }
         }
 
+        //countOfVariables--;
+
         HashSet<String> normVars = new HashSet<>();
         for (int i = 0; i < countOfVariables; i++) {
             normVars.add("x"+i);
@@ -43,16 +45,34 @@ public class ProblemProcessor {
             function.negateCoefficients();
             //System.out.println(function);
         }
-        for (int i = 0; i < countOfNotEqualConditions; i++) {
+        int m = function.getCoefficients().size() - 1;
+        for (int i = 0; i < countOfNotEqualConditions + countOfVariables - m; i++) {
             function.addZeroCoefficient();
         }
         int idAdditional = 0;
         boolean addAdditional = true;
         ArrayList<Condition> conditions = problem.getConditions();
+
+        //System.out.println("Count of vars = " + countOfVariables);
+        //System.out.println("Count of notEqual = " + countOfNotEqualConditions);
+
         for (int i = 0; i < conditions.size(); i++) {
-            for (int j = 0; j < countOfVariables - conditions.get(i).getCoefficients().size(); j++) {
+            //System.out.println("Before!:");
+            //System.out.println(conditions.get(i).getCoefficients().size());
+            //System.out.println("\n");
+
+            //System.out.println("Add norm!");
+            //System.out.println(countOfVariables - conditions.get(i).getCoefficients().size());
+            //System.out.println();
+            int n = conditions.get(i).getCoefficients().size();
+            for (int j = 0; j < countOfVariables - n; j++) {
                 conditions.get(i).addCoefficient(new Fraction(0), VariableType.NORM);
+            //    System.out.println("Size = " + conditions.get(i).getCoefficients().size());
             }
+            //System.out.println("AFTER!");
+            //System.out.println(conditions.get(i).getCoefficients().size());
+            //System.out.println("\n");
+
             if (conditions.get(i).getSign().equals(ConditionSign.MORE_OR_EQUAL)) {
                 conditions.get(i).negateCoefficients();
             }
@@ -73,6 +93,10 @@ public class ProblemProcessor {
             }
             addAdditional = true;
         }
+
+        //for (int i = 0; i < conditions.size(); i++) {
+        //    System.out.println("size of " + i + " cond = " + conditions.get(i).getCoefficients().size());
+        //}
 
         //System.out.println("1!!");
         //System.out.println(function);

@@ -11,7 +11,9 @@ public class Problem {
     private ObjectiveFunction objectiveFunction;
 
     private ArrayList<Condition> conditions;
+    @Deprecated
     private Set<String> normVariables;
+    private int countOfNormVars = -1;
 
     private boolean wasMin = false;
 
@@ -126,10 +128,10 @@ public class Problem {
     @Override
     public String toString() {
         return "Problem{" +
-                "objectiveFunction=" + objectiveFunction +
-                ", conditions=" + conditions +
-                ", normVariables=" + normVariables +
-                ", wasMin=" + wasMin +
+                "\nobjectiveFunction=" + objectiveFunction +
+                "\n, conditions=" + conditions +
+                "\n, normVariables=" + normVariables +
+                "\n, wasMin=" + wasMin +
                 '}';
     }
 }

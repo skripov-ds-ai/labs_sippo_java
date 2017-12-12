@@ -16,6 +16,10 @@ public class SimplexTable  {
     private BiMap<Integer, String> columnsMap;
     private HashMap<String, VariableType> variableTypeMap;
 
+    public Problem getProblem() {
+        return problem;
+    }
+
     private List<List<Fraction>> tableau;
 
     public SimplexTable(Problem problem) {
@@ -70,15 +74,26 @@ public class SimplexTable  {
     }
 
     public List<Fraction> getOptimalVector() {
+        System.out.println("VECTOR!!!");
         Map<String, Fraction> map = new HashMap<>();
 
         Map<String, Integer> rows = (new HashMap<>());
         rows.putAll(rowsMap.getM2t());
 
+        int tmp = 0;
+
         for (Map.Entry<String, Integer> entry : rows.entrySet()) {
+            System.out.println(entry);
+            System.out.println(variableTypeMap.get(entry.getKey()));
+            System.out.println(tableau.get(entry.getValue()).get(0));
+            System.out.println(variableTypeMap.get(entry.getKey()).equals(VariableType.NORM));
+            System.out.println();
             if (variableTypeMap.get(entry.getKey()).equals(VariableType.NORM)) {
                 map.put(entry.getKey(), tableau.get(entry.getValue()).get(0));
+                //tmp++;
             }
+
+            //System.out.println("TMP = " + tmp);
         }
 
         //System.out.println("SIZE:");
@@ -86,7 +101,7 @@ public class SimplexTable  {
         //System.out.println();
         //System.out.println(rows);
 
-        int sizeOfVector = problem.getObjectiveFunction().getCoefficients().size() - 1;
+        int sizeOfVector = problem.getNormVariables().size();//problem.getObjectiveFunction().().size() - 1;
 
         List<Fraction> answer = new ArrayList<>();
         for (int i = 0; i < sizeOfVector; i++) {
@@ -94,8 +109,10 @@ public class SimplexTable  {
         }
 
         for (Map.Entry<String, Fraction> entry : map.entrySet()) {
-            int id = Integer.parseInt(entry.getKey().substring(1)) - 1;
-            answer.get(id).add(entry.getValue());
+            if (variableTypeMap.get(entry.getKey()).equals(VariableType.NORM)) {
+                int id = Integer.parseInt(entry.getKey().substring(1)) - 1;
+                answer.get(id).add(entry.getValue());
+            }
         }
 
         return answer;
@@ -187,7 +204,7 @@ public class SimplexTable  {
         }
 
 
-        if (variableTypeMap.get(columnsMap.getM(q)) == VariableType.ARTIFICIAL) {
+        if (variableTypeMap.get(columnsMap.getM(q)).equals(VariableType.ARTIFICIAL)) {
             // delete artificial column
             for (int j = q + 1; j < tableau.get(0).size(); j++) {
                 String name = columnsMap.getM(j);
@@ -198,6 +215,8 @@ public class SimplexTable  {
             for (List<Fraction> aTableau : tableau) {
                 aTableau.remove(q);
             }
+            System.out.println("q = " + q);
+            //columnsMap.removeM(columnsMap.getM(q));
         } else {
             for (int i = 0; i < tableau.size(); i++) {
                 if (i != p) {
@@ -209,9 +228,46 @@ public class SimplexTable  {
 
             pivot.reverse();
         }
+
+
+    }
+
+    public void reduce() {
+        //ArrayList<String> toDelete = new ArrayList<>();
+       // for (Map.Entry<String, Integer> entry : columnsMap.getM2t().entrySet()) {
+       //     if (variableTypeMap.get(entry.getKey()).equals(VariableType.ARTIFICIAL)) {
+       //         toDelete.add(entry.getKey() + "");
+       //     }
+       // }
+        //System.out.println(columnsMap.getM2t().entrySet().size());
+        //System.out.println("toDelete = " + toDelete);
+        //System.out.println(tableau.get(0).size());
+        //for (String s : toDelete) {
+        //    columnsMap.removeM(s);
+        //}
+        /*for (String s : toDelete) {
+            int q = columnsMap.getT(s) - 1;
+            for (int j = q + 1; j < tableau.get(0).size(); j++) {
+                String name = columnsMap.getM(j);
+                columnsMap.removeT(j - 1);
+                columnsMap.removeM(name);
+                columnsMap.add(j - 1, name);
+            }
+            for (List<Fraction> aTableau : tableau) {
+                aTableau.remove(q);
+            }
+        }*/
+
     }
 
     private void changeRowAndColumnStrings(int i, int j) {
+        System.out.println("Before:");
+        System.out.println("Rows:");
+        System.out.println(rowsMap);
+        System.out.println("Columns:");
+        System.out.println(columnsMap);
+        System.out.println("---------");
+
         String iS = rowsMap.getM(i);
         String jS = columnsMap.getM(j);
 
@@ -220,6 +276,13 @@ public class SimplexTable  {
 
         rowsMap.add(i, jS);
         columnsMap.add(j, iS);
+
+        System.out.println("After:");
+        System.out.println("Rows:");
+        System.out.println(rowsMap);
+        System.out.println("Columns:");
+        System.out.println(columnsMap);
+        System.out.println("---------");
     }
 
     public String getStringTable() {

@@ -95,6 +95,5 @@ crashlytics-build.properties
 fabric.properties
 /src/main/resources/some/
 /src/main/resources/
-/src/test/resources/
 /src/test/resources/lesson2/problem/reader/problem-src
 /src/test/java/com/examples/skripov/sippo/str/

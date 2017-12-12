@@ -19,12 +19,14 @@ public final class ArtificialBasicTechniqueSolver {
 
         //int it = 0;
         while (true) {
-            //System.out.println(artificialTableau.getStringTable());
+            System.out.println(tableau.getStringTable());
+            System.out.println();
 
 
             if (tableau.isForwardOptimal()) {
                 break;
             }
+
             List<Fraction> cs = tableau.getFunctionCoefs();
             //Fraction key = artificialTableau.getElem(1, 0).division(artificialTableau.getElem());
             int q = 0;
@@ -46,38 +48,77 @@ public final class ArtificialBasicTechniqueSolver {
                 throw new IllegalArgumentException();
             }
 
-            int p = 0;
-            Fraction key = zero;
+            if (tableau.isUnSolvable(q)) {
+                throw new IllegalArgumentException();
+            }
+
+            // todo rewrite this logic for choosing to 2 steps!
+            // todo + разберись с проблемой в гамсе!
+            //int p = 0;
+            //Fraction key = zero;
+
+            ArrayList<Integer> ids = new ArrayList<>();
+
             for (int i = 1; i < tableau.rowsCount(); i++) {
+                if (tableau.getElem(i, q).compareTo(zero) > 0) {
+                    ids.add(i);
+                }
+            }
+
+            if (ids.size() < 1) {
+                throw new IllegalArgumentException();
+            }
+
+            int p = ids.get(0);
+            for (Integer id : ids) {
+                if ( (new Fraction(tableau.getElem(id, 0))).division(tableau.getElem(id, q))
+                        .compareTo((new Fraction(tableau.getElem(p, 0))).division(tableau.getElem(p, q))) < 0 ) {
+                    p = id;
+                }
+            }
+
+
+            /*boolean first = true;
+            // todo! and try to rewrite condition for problem(for your problem!)!
+            for (int i = 1; i < tableau.rowsCount(); i++) {
+                if (tableau.getElem(i, q).compareTo(zero) <= 0) {
+                    continue;
+                }
                 Fraction tmp = (new Fraction(tableau.getElem(i, 0))).division(tableau.getElem(i, q));
-                //System.out.println("tmp = "+tmp);
+                System.out.println("tmp = "+tmp);
                 if (key.compareTo(zero) > 0) {
                     if (tmp.compareTo(key) < 0) {
                         key = tmp;
                         p = i;
+                        //first = false;
                     }
-                } else {
+                    continue;
+                }
+                if (key.compareTo(zero) == 0) {// || first) {
                     key = tmp;
                     p = i;
+                    first = false;
                 }
-                //System.out.println("key = "+key);
-            }
+                System.out.println("key = "+key);
+            }*/
 
-            //System.out.println(artificialTableau.getStringTable());
+            //System.out.println(tableau.getStringTable());
 
-            if (key.compareTo(zero) <= 0) {
-                throw new IllegalArgumentException();
-            }
+            //if (key.compareTo(zero) <= 0) {
+            //    throw new IllegalArgumentException();
+            //}
 
             //System.out.println("p = " + p);
 
-            if (p == 0) {
+            if (p <= 0) {
                 throw new IllegalArgumentException();
             }
 
+            //System.out.println("p = " + p + "; q = " + q);
             tableau.relaxTableau(p, q);
 
-            //System.out.println(artificialTableau.getStringTable());
+            //System.out.println();
+            //System.out.println(tableau.getStringTable());
             //System.out.println();
 
             //it++;
@@ -110,6 +151,7 @@ public final class ArtificialBasicTechniqueSolver {
                 //if (i == 0) {
                 //    hCoef.get(i).sub(conditions.get(j).getFreeFactor());
                 //} else {
+                //System.out.println(j + "coefs size = " + conditions.get(j).getCoefficients().size());
                 //System.out.println("ji = "+ conditions.get(j).getCoefficients().get(i));
                 hCoef.get(i + 1).add(conditions.get(j).getCoefficients().get(i));
                 //}
@@ -124,7 +166,7 @@ public final class ArtificialBasicTechniqueSolver {
         //    conditions.get(i).negateVarCoefficients();
         //}
 
-        Problem problem1 = new Problem(h, conditions);
+        Problem problem1 = new Problem(h, conditions, problem.getNormVariables());
 
         Fraction zero = new Fraction(0);
 
@@ -171,7 +213,13 @@ public final class ArtificialBasicTechniqueSolver {
 
         artificialTableau = solveForward(artificialTableau);
 
+        if (artificialTableau.getOptimalValueOfFunction().compareTo(new Fraction(0)) > 0) {
+            throw new IllegalArgumentException();
+        }
 
+        System.out.println("columns map!!!");
+        System.out.println(artificialTableau.getColumnsMap());
+        System.out.println();
         int newFSize = artificialTableau.columnsCount();
         ArrayList<Fraction> newFCoefs = new ArrayList<>();
         for (int i = 0; i < newFSize; i++) {
@@ -188,36 +236,47 @@ public final class ArtificialBasicTechniqueSolver {
             }
         }
 
+        System.out.println(artificialTableau.getStringTable());
+        System.out.println("indexes = " + indexes);
+
         Map<String, Integer> rows = artificialTableau.getRowsMap().getM2t();
         for (Map.Entry<String, Integer> entry : rows.entrySet()){
+            if (entry.getKey().startsWith("t")) {
+                continue;
+            }
             Integer id = Integer.parseInt(entry.getKey().substring(1));
 
             indexes.remove(id);
-            //System.out.println(id);
+            System.out.println(id);
 
             List<Fraction> row = artificialTableau.getIthRow(entry.getValue());
 
-            //System.out.println("row = " +row);
+            System.out.println("row = " +row);
 
             Fraction coef = originalFCoefs.get(id);
 
-            //System.out.println("coef = " + coef);
+            System.out.println("coef = " + coef);
 
             for (int j = 0; j < newFSize; j++) {
-                newFCoefs.get(j).add(row.get(j).multiplication(coef));
+                newFCoefs.get(j).sub/*add*/(row.get(j).multiplication(coef));
+            }
+
+            if (indexes.size() < 1) {
+                break;
             }
         }
 
-        //System.out.println(indexes);
+        System.out.println(indexes);
 
         Map<String, Integer> columns = artificialTableau.getColumnsMap().getM2t();
+
+        System.out.println("######columns = " + columns);
+
         for (Integer id : indexes) {
             int k = columns.get("x" + id);
-
+            System.out.println("columns.get(x" + id + ") = " + columns.get("x" + id));
             //System.out.println(k);
-
-
-            newFCoefs.get(k).sub(originalFCoefs.get(id));
+            newFCoefs.get(k).add(originalFCoefs.get(id));
         }
 
 
@@ -226,6 +285,12 @@ public final class ArtificialBasicTechniqueSolver {
 
         artificialTableau.getTableau().remove(0);
         artificialTableau.getTableau().add(0, newFCoefs);
+
+        System.out.println("PROBLEM!");
+        System.out.println(artificialTableau.getProblem());
+        System.out.println(artificialTableau.getProblem().getNormVariables());
+
+        artificialTableau.reduce();
 
         artificialTableau = solveForward(artificialTableau);
 
